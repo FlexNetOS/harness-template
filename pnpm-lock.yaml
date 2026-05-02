@@ -20,29 +20,29 @@ importers:
         specifier: ^2.2.5
         version: 2.2.5
       ajv:
-        specifier: ^8.18.0
+        specifier: ^8.20.0
         version: 8.20.0
       sql.js:
         specifier: ^1.14.1
         version: 1.14.1
     devDependencies:
       '@eslint/js':
-        specifier: ^9.39.2
+        specifier: ^9.39.4
         version: 9.39.4
       '@opencode-ai/plugin':
-        specifier: ^1.0.0
+        specifier: ^1.14.31
         version: 1.14.31
       '@types/node':
-        specifier: ^20.19.24
+        specifier: ^20.19.39
         version: 20.19.39
       c8:
         specifier: ^11.0.0
         version: 11.0.0
       eslint:
-        specifier: ^9.39.2
+        specifier: ^9.39.4
         version: 9.39.4
       globals:
-        specifier: ^17.4.0
+        specifier: ^17.6.0
         version: 17.6.0
       markdownlint-cli:
         specifier: ^0.48.0
@@ -74,44 +74,44 @@ importers:
   templates/node-postgres-claude:
     dependencies:
       dotenv:
-        specifier: ^16.4.5
+        specifier: ^16.6.1
         version: 16.6.1
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2(@types/pg@8.20.0)(pg@8.20.0)(sql.js@1.14.1)
       express:
-        specifier: ^4.21.2
+        specifier: ^4.22.1
         version: 4.22.1
       pg:
-        specifier: ^8.13.1
+        specifier: ^8.20.0
         version: 8.20.0
     devDependencies:
       '@types/express':
-        specifier: ^5.0.0
+        specifier: ^5.0.6
         version: 5.0.6
       '@types/node':
-        specifier: ^20.17.10
+        specifier: ^20.19.39
         version: 20.19.39
       '@types/pg':
-        specifier: ^8.11.10
+        specifier: ^8.20.0
         version: 8.20.0
       '@types/supertest':
-        specifier: ^6.0.2
+        specifier: ^6.0.3
         version: 6.0.3
       drizzle-kit:
         specifier: ^0.28.1
         version: 0.28.1
       supertest:
-        specifier: ^7.0.0
+        specifier: ^7.2.2
         version: 7.2.2
       tsx:
-        specifier: ^4.19.2
+        specifier: ^4.21.0
         version: 4.21.0
       typescript:
-        specifier: ^5.7.2
+        specifier: ^5.9.3
         version: 5.9.3
       vitest:
-        specifier: ^2.1.8
+        specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.39)
 
 packages:
