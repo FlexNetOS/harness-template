@@ -51,34 +51,33 @@ jobs:
       - name: Install devcontainer CLI
         run: npm install -g @devcontainers/cli@0.65.0
 
-      - name: Build the spawner
-        working-directory: packages/project-spawner
-        run: pnpm run build
-
-      - name: Spawn a project from the reference template
+      - name: Spawn a project from the node-postgres-claude template
+        # The spawner ships plain CommonJS — no build step. Run src/cli.js
+        # directly. CLI signature: harness-spawn <template> <project-name>
+        # with optional --ai-cli=<name> and --skip-age (the latter is required
+        # in CI because there is no host age key to read or generate).
         run: |
           mkdir -p /tmp/e2e
-          node packages/project-spawner/dist/cli.js \
-            --template reference \
-            --name e2e-spawned \
-            --out /tmp/e2e/spawned \
-            --non-interactive
+          cd /tmp/e2e
+          node "$GITHUB_WORKSPACE/packages/project-spawner/src/cli.js" \
+            node-postgres-claude e2e-spawned \
+            --skip-age
           echo "Spawned tree:"
-          ls -la /tmp/e2e/spawned
+          ls -la /tmp/e2e/e2e-spawned
 
       - name: Build the spawned project's devcontainer
         run: |
           devcontainer build \
-            --workspace-folder /tmp/e2e/spawned \
+            --workspace-folder /tmp/e2e/e2e-spawned \
             --image-name spawner-e2e:latest
 
       - name: Start the spawned devcontainer
         run: |
           devcontainer up \
-            --workspace-folder /tmp/e2e/spawned
+            --workspace-folder /tmp/e2e/e2e-spawned
 
       - name: Run smoke test inside the container
         run: |
           devcontainer exec \
-            --workspace-folder /tmp/e2e/spawned \
-            bash -lc 'if [ -f scripts/smoke.sh ]; then bash scripts/smoke.sh; else pnpm verify; fi'
+            --workspace-folder /tmp/e2e/e2e-spawned \
+            bash -lc 'if [ -f scripts/smoke.sh ]; then bash scripts/smoke.sh; else pnpm test; fi'
