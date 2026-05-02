@@ -68,8 +68,8 @@ RUN npm install -g @anthropic-ai/claude-code \
 # ---------------------------------------------------------------------------
 # Workspace + permissions
 # ---------------------------------------------------------------------------
-RUN mkdir -p /workspaces/node-postgres-claude /home/node/.config/sops/age \
-    && chown -R node:node /home/node /workspaces/node-postgres-claude
+RUN mkdir -p /workspace /home/node/.config/sops/age \
+    && chown -R node:node /home/node /workspace
 
 USER node
-WORKDIR /workspaces/node-postgres-claude
+WORKDIR /workspace
