@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "$comment": "Boil-the-Ocean Layer 2: active checkpoint before any Write/Edit/MultiEdit. Surfaces the 10-section sweep into context before the tool fires. Runs through run-with-flags.js so ECC_HOOK_PROFILE / ECC_DISABLED_HOOKS gating still applies. The full sweep runs in CI (Layer 3); this is the --quick variant.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/hooks/run-with-flags.js pre:boil-checkpoint scripts/hooks/boil-checkpoint.js standard,strict",
+            "timeout": 10
+          }
+        ],
+        "description": "Boil-the-Ocean Layer 2: run tools/boil-review.js --quick before Write/Edit/MultiEdit so the 10-section checklist becomes context. Non-blocking — exits 0 on any failure.",
+        "id": "pre:boil-checkpoint"
+      }
+    ]
+  }
+}

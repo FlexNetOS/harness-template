@@ -1,0 +1,9 @@
+{
+  "name": "@harness-template/skills-software-factory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Garry Tan's gstack utilities, minus the seven spine commands. Non-spine skills callable from any spine phase.",
+  "scripts": {
+    "test": "node tests/smoke.test.js"
+  }
+}

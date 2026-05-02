@@ -1,0 +1,147 @@
+# Boil-the-ocean review workflow.
+#
+# Required secrets: NONE (uses default GITHUB_TOKEN with pull-requests: write).
+#
+# What this does:
+#   - Runs `tools/boil-review.js --full --json` against the PR.
+#   - Parses the JSON output and posts a structured comment on the PR.
+#   - Exits non-zero if any "critical" findings exist (blocks merge).
+#
+# See docs/BOIL-THE-OCEAN.md for the philosophy and how to extend the rules.
+
+name: boil-review
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: boil-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    name: boil-the-ocean review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run boil-review
+        id: review
+        run: |
+          set +e
+          node tools/boil-review.js --full --json > review.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+          # Always show the JSON in the log even if the script errored.
+          cat review.json || echo '{"error":"no-output"}'
+
+      - name: Post structured PR comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            let payload;
+            try {
+              payload = JSON.parse(fs.readFileSync('review.json', 'utf8'));
+            } catch (err) {
+              payload = { error: `Failed to parse review.json: ${err.message}` };
+            }
+
+            const findings = Array.isArray(payload.findings) ? payload.findings : [];
+            const bySeverity = { critical: [], warning: [], info: [] };
+            for (const f of findings) {
+              const sev = (f.severity || 'info').toLowerCase();
+              (bySeverity[sev] || bySeverity.info).push(f);
+            }
+
+            const renderGroup = (label, icon, items) => {
+              if (!items.length) return '';
+              const lines = items.map(i =>
+                `- **${i.rule || 'rule'}** — ${i.message || ''}` +
+                (i.path ? ` (\`${i.path}\`${i.line ? `:${i.line}` : ''})` : '')
+              ).join('\n');
+              return `\n### ${icon} ${label} (${items.length})\n${lines}\n`;
+            };
+
+            const summary = payload.summary
+              ? `\n${payload.summary}\n`
+              : `\nReviewed ${findings.length} finding(s).\n`;
+
+            const body =
+              `## Boil-the-Ocean Review\n` +
+              summary +
+              renderGroup('Critical', ':rotating_light:', bySeverity.critical) +
+              renderGroup('Warning', ':warning:', bySeverity.warning) +
+              renderGroup('Info', ':information_source:', bySeverity.info) +
+              (payload.error ? `\n> Error: ${payload.error}\n` : '') +
+              `\n---\n_Posted by \`boil-review.yml\`. See [docs/BOIL-THE-OCEAN.md](../blob/main/docs/BOIL-THE-OCEAN.md) for what triggers each rule._\n`;
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+
+            // Look for an existing comment we can update so we don't spam the PR.
+            const marker = '## Boil-the-Ocean Review';
+            const existing = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number, per_page: 100 }
+            );
+            const mine = existing.find(c =>
+              c.user && c.user.type === 'Bot' && (c.body || '').startsWith(marker)
+            );
+
+            if (mine) {
+              await github.rest.issues.updateComment({
+                owner, repo, comment_id: mine.id, body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number, body
+              });
+            }
+
+      - name: Fail if critical findings
+        run: |
+          node -e '
+            const p = JSON.parse(require("fs").readFileSync("review.json", "utf8"));
+            const findings = Array.isArray(p.findings) ? p.findings : [];
+            const crit = findings.filter(f => (f.severity || "").toLowerCase() === "critical");
+            if (crit.length) {
+              console.error(`boil-review: ${crit.length} critical finding(s)`);
+              for (const c of crit) console.error(` - ${c.rule}: ${c.message}`);
+              process.exit(1);
+            }
+            // Propagate non-zero exit from the tool itself.
+            const ec = parseInt(process.env.TOOL_EXIT || "0", 10);
+            if (ec !== 0) {
+              console.error(`boil-review tool exited ${ec}`);
+              process.exit(ec);
+            }
+          '
+        env:
+          TOOL_EXIT: ${{ steps.review.outputs.exit_code }}

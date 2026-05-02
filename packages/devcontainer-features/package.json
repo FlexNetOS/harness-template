@@ -1,0 +1,10 @@
+{
+  "name": "@harness-template/devcontainer-features",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Publishable Dev Container Features for the harness-template monorepo (claude-cli, codex-cli, gemini-cli, sops-age, opencode, agency-agents, agents-workspace).",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Per-feature shell tests live under test/<feature>/test.sh and run via the devcontainers CLI.\" && exit 0"
+  }
+}

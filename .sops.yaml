@@ -1,0 +1,20 @@
+# sops + age configuration.
+#
+# Each contributor generates their own age keypair:
+#   age-keygen -o ~/.config/sops/age/keys.txt
+# Then asks the maintainer to add their PUBLIC key below.
+#
+# Encrypt the .env template:
+#   sops -e .env > .env.sops
+#
+# Decrypt at runtime (used by .devcontainer/post-create.sh):
+#   sops -d .env.sops
+#
+# Never commit .env. Only .env.sops and .env.example are committed.
+
+creation_rules:
+  - path_regex: \.env\.sops$
+    age: >-
+      # Maintainer public key (replace with real age1... key)
+      age1placeholderreplacewithrealrecipientkeyhereXXXXXXXXXXXXXXXX
+    # Add additional contributor public keys as a comma-separated list above.

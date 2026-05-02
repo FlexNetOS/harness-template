@@ -1,0 +1,16 @@
+{
+  "name": "@harness-template/skills-foundation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Foundation meta-skills (delegate, wiki, implement, debug, agents-skills) for the harness-template monorepo. Pure markdown skill pack — no build step.",
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "files": [
+    "skills/",
+    "tools/",
+    "AGENTS.md",
+    "README.md",
+    "CLAUDE.md"
+  ]
+}

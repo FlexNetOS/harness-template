@@ -1,0 +1,9 @@
+{
+  "name": "@harness-template/skills-guidelines",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Behavioral coding-guideline skill packs (Karpathy guidelines, etc.)",
+  "scripts": {
+    "test": "node tests/smoke.test.js"
+  }
+}

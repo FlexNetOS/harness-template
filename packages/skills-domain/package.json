@@ -1,0 +1,9 @@
+{
+  "name": "@harness-template/skills-domain",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Domain-specific skill packs (accessibility, api-design, agentic-engineering, etc.) folded in from agent_harness.",
+  "scripts": {
+    "test": "node tests/smoke.test.js"
+  }
+}

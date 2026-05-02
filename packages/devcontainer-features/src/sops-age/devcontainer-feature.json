@@ -1,0 +1,22 @@
+{
+  "id": "sops-age",
+  "name": "sops + age",
+  "version": "0.1.0",
+  "description": "Installs Mozilla sops and FiloSottile/age binaries (pinned versions, SHA256-verified) for secret encryption/decryption.",
+  "documentationURL": "https://github.com/getsops/sops",
+  "options": {
+    "sopsVersion": {
+      "type": "string",
+      "default": "3.9.4",
+      "description": "Version of getsops/sops to install (without leading 'v')."
+    },
+    "ageVersion": {
+      "type": "string",
+      "default": "1.2.1",
+      "description": "Version of FiloSottile/age to install (without leading 'v')."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

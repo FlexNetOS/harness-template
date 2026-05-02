@@ -1,0 +1,18 @@
+{
+  "id": "codex-cli",
+  "name": "OpenAI Codex CLI",
+  "version": "0.1.0",
+  "description": "Installs the OpenAI Codex CLI (@openai/codex) globally via npm.",
+  "documentationURL": "https://github.com/openai/codex",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm dist-tag or semver version of @openai/codex to install."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ]
+}

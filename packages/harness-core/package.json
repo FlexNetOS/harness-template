@@ -1,0 +1,38 @@
+{
+  "name": "@harness-template/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Harness core: spine-command runtime, always-on hooks, specialist agents, cross-platform Node utilities.",
+  "license": "MIT",
+  "main": "scripts/lib/utils.js",
+  "exports": {
+    ".": "./scripts/lib/utils.js",
+    "./hooks/run-with-flags": "./scripts/hooks/run-with-flags.js",
+    "./hooks/boil-checkpoint": "./scripts/hooks/boil-checkpoint.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "node tests/run-all.js"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "ajv": "^8.18.0",
+    "sql.js": "^1.14.1"
+  },
+  "devDependencies": {
+    "c8": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "agents/",
+    "commands/",
+    "hooks/",
+    "rules/",
+    "scripts/",
+    "mcp-configs/",
+    "CLAUDE.md",
+    "README.md"
+  ]
+}

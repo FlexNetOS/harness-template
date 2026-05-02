@@ -1,0 +1,28 @@
+{
+  "id": "agents-workspace",
+  "version": "0.2.2",
+  "name": "Agents Workspace",
+  "description": "AI agent workspace with specialist agents for orchestrated, minimal, and self-learning workflows.",
+  "documentationURL": "https://github.com/wcgomes/devcontainer-features?tab=readme-ov-file#feature-agents-workspace",
+  "options": {
+    "tool": {
+      "type": "string",
+      "default": "all",
+      "description": "Tool to install: opencode, claude, copilot, antigravity, all (default: all)"
+    },
+    "includeAgency": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install agency-agents (144+ specialized agents)"
+    },
+    "autoupdate": {
+      "type": "boolean",
+      "default": true,
+      "description": "Check for updates on container start"
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+  "postStartCommand": "bash /usr/local/share/devcontainer-features/agents-workspace-postStartCommand.sh"
+}

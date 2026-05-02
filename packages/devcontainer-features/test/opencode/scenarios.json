@@ -1,0 +1,40 @@
+{
+    "default": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "opencode": {}
+        }
+    },
+    "custom_username": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "opencode": {
+                "username": "vscode"
+            }
+        }
+    },
+    "specific_version": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "opencode": {
+                "version": "1.3.17"
+            }
+        }
+    },
+    "autoupdate_enabled": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "opencode": {
+                "autoupdate": true
+            }
+        }
+    },
+    "autoupdate_disabled": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "opencode": {
+                "autoupdate": false
+            }
+        }
+    }
+}

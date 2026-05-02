@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "harness-template",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "node",
+  "workspaceFolder": "/workspaces/harness-template",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/sops/age/keys.txt,target=/home/node/.config/sops/age/keys.txt,type=bind,readonly,consistency=cached"
+  ],
+  "forwardPorts": [5432],
+  "portsAttributes": {
+    "5432": {
+      "label": "postgres (spawned templates)",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "signageos.signageos-vscode-sops"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n"
+      }
+    }
+  }
+}

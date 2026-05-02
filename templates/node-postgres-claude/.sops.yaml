@@ -1,0 +1,10 @@
+# .sops.yaml — encryption rules.
+#
+# After cloning, replace the placeholder age recipient with YOUR public key.
+# Get it from: cat ~/.config/sops/age/keys.txt | grep 'public key'
+# Then re-encrypt: sops updatekeys .env.sops
+creation_rules:
+  - path_regex: \.env\.sops$
+    encrypted_regex: "^(.*)$"
+    age: >-
+      age1placeholderxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

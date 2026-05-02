@@ -1,0 +1,39 @@
+{
+  "name": "node-postgres-claude-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reference Node + Postgres + Claude-CLI app spawned from harness-template.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "migrate": "tsx src/db/migrate.ts",
+    "migrate:generate": "drizzle-kit generate",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.4",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^20.17.10",
+    "@types/pg": "^8.11.10",
+    "@types/supertest": "^6.0.2",
+    "drizzle-kit": "^0.28.1",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "packageManager": "pnpm@9.12.0"
+}

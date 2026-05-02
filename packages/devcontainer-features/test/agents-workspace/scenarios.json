@@ -1,0 +1,58 @@
+{
+    "default": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {}
+        }
+    },
+    "explicit_all": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {
+                "tool": "all"
+            }
+        }
+    },
+    "explicit_opencode": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {
+                "tool": "opencode"
+            }
+        }
+    },
+    "no_agency": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {
+                "tool": "all",
+                "includeAgency": false
+            }
+        }
+    },
+    "autoupdate_disabled": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {
+                "tool": "all",
+                "autoupdate": false
+            }
+        }
+    },
+    "autoupdate_enabled": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agents-workspace": {
+                "tool": "all",
+                "autoupdate": true
+            }
+        }
+    },
+    "remote_user_node": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "remoteUser": "node",
+        "features": {
+            "agents-workspace": {}
+        }
+    }
+}

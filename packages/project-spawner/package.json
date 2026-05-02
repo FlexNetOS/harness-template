@@ -1,0 +1,41 @@
+{
+  "name": "@harness-template/project-spawner",
+  "version": "0.1.0",
+  "private": false,
+  "description": "harness-spawn CLI - scaffold a new project from a harness template",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "harness-spawn": "./src/cli.js"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "scripts": {
+    "build": "node -e \"console.log('No build step - shipping plain JS from src/')\"",
+    "start": "node ./src/cli.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "cac": "^6.7.14",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "harness",
+    "scaffold",
+    "cli",
+    "template",
+    "claude",
+    "codex",
+    "gemini"
+  ]
+}

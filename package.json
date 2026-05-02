@@ -1,0 +1,30 @@
+{
+  "name": "harness-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OSS-grade Claude Code harness + devcontainer template with unified slash-command spine and multi-Claude orchestration",
+  "license": "MIT",
+  "author": "David Revenaugh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlexNetOS/harness-template"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "test": "pnpm -r test",
+    "test:host": "node tools/check-command-collisions.js && pnpm -r --parallel test",
+    "boil:review": "node tools/boil-review.js",
+    "boil:review:full": "node tools/boil-review.js --full",
+    "spine:fanout": "node tools/spine-fanout.js",
+    "collisions:check": "node tools/check-command-collisions.js",
+    "lint:md": "markdownlint-cli '**/*.md' --ignore node_modules --ignore packages/*/node_modules",
+    "verify": "pnpm collisions:check && pnpm test && pnpm boil:review:full"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.42.0"
+  }
+}

@@ -1,0 +1,17 @@
+# Issue template chooser configuration.
+# Disables blank issues so contributors pick one of our templates.
+
+blank_issues_enabled: false
+
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/FlexNetOS/harness-template/security/policy
+    about: Please report security issues privately. See SECURITY.md.
+
+  - name: Discussions and questions
+    url: https://github.com/FlexNetOS/harness-template/discussions
+    about: For usage questions, design ideas, and show-and-tell. Bugs and feature requests still belong in issues.
+
+  - name: Documentation
+    url: https://github.com/FlexNetOS/harness-template/tree/main/docs
+    about: Architecture, spawner usage, vault workflow, and more.

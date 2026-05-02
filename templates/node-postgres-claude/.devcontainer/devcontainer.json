@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "node-postgres-claude",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/node-postgres-claude",
+  "remoteUser": "node",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [3000, 5432],
+  "portsAttributes": {
+    "3000": {
+      "label": "app (express)",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "postgres",
+      "onAutoForward": "silent"
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/sops/age/keys.txt,target=/home/node/.config/sops/age/keys.txt,type=bind,readonly,consistency=cached"
+  ],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "signageos.signageos-vscode-sops",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n",
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
+    }
+  }
+}

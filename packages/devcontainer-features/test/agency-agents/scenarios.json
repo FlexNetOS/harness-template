@@ -1,0 +1,32 @@
+{
+    "default_auto": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agency-agents": {}
+        }
+    },
+    "explicit_copilot": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agency-agents": {
+                "tool": "copilot"
+            }
+        }
+    },
+    "explicit_all": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agency-agents": {
+                "tool": "all"
+            }
+        }
+    },
+    "explicit_opencode": {
+        "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+        "features": {
+            "agency-agents": {
+                "tool": "opencode"
+            }
+        }
+    }
+}

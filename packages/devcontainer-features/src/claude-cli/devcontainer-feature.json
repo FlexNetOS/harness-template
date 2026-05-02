@@ -1,0 +1,18 @@
+{
+  "id": "claude-cli",
+  "name": "Claude Code CLI",
+  "version": "0.1.0",
+  "description": "Installs the Anthropic Claude Code CLI (@anthropic-ai/claude-code) globally via npm.",
+  "documentationURL": "https://docs.anthropic.com/en/docs/claude-code",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm dist-tag or semver version of @anthropic-ai/claude-code to install (e.g. 'latest' or '1.2.3')."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ]
+}

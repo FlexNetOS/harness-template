@@ -1,0 +1,18 @@
+{
+  "id": "gemini-cli",
+  "name": "Google Gemini CLI",
+  "version": "0.1.0",
+  "description": "Installs the Google Gemini CLI (@google/gemini-cli) globally via npm, with a graceful npx fallback if the package is unavailable.",
+  "documentationURL": "https://github.com/google-gemini/gemini-cli",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm dist-tag or semver of @google/gemini-cli to install. Ignored when falling back to the npx wrapper."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ]
+}

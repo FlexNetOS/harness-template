@@ -1,0 +1,44 @@
+# Publish dev container features to GHCR.
+#
+# Triggered by pushing a tag matching `features-v*` (e.g. `features-v1.2.3`).
+#
+# Required secrets: NONE
+#   - Uses the default GITHUB_TOKEN with `packages: write` permission. No PAT needed.
+#
+# Required repository settings:
+#   - Settings -> Actions -> General -> Workflow permissions: "Read and write permissions"
+#     (or per-workflow `permissions:` block below — preferred).
+#   - Each feature must live in `packages/devcontainer-features/src/<feature-id>/`
+#     with a `devcontainer-feature.json`.
+
+name: publish-features
+
+on:
+  push:
+    tags:
+      - 'features-v*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: publish features
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      # The official devcontainers GitHub Action knows how to discover features
+      # under `packages/devcontainer-features/src/*` and publish each one
+      # individually to ghcr.io/<owner>/<repo>/<feature-id>:<version>.
+      - name: Publish features to GHCR
+        uses: devcontainers/action@v1
+        with:
+          publish-features: 'true'
+          base-path-to-features: './packages/devcontainer-features/src'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
