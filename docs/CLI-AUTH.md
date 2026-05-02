@@ -1,4 +1,4 @@
-# CLI Auth — Claude, Codex, Gemini
+# CLI Auth — Claude, Codex, Gemini, gh
 
 > How each AI CLI authenticates inside a spawned project. This is
 > *runtime auth* — for *secret-at-rest* management (sops + age), see
@@ -144,13 +144,61 @@ flow would mean baking a credential into a shared image. The
 devcontainer mounts `~/.config/gemini` from the host so one login on
 your laptop covers all containers.
 
+## GitHub CLI (gh)
+
+### How it auths
+
+`gh` (the GitHub CLI) is shipped alongside the three AI CLIs because the
+spine commands (`/ship` in particular) and the `harness-spawn` tool both
+need it for repo/PR/GHCR operations. Two modes:
+
+1. **`gh auth login`** — interactive device-code flow. Opens a browser,
+   you sign in, the CLI stores a token under `~/.config/gh/`. This is the
+   recommended path for human developers.
+2. **`GH_TOKEN` (or `GITHUB_TOKEN`) env var** — Personal Access Token
+   fallback for CI and headless environments.
+
+### Where to get it
+
+- **OAuth:** Just run `gh auth login` and follow the prompts.
+- **PAT:** https://github.com/settings/tokens — create a fine-grained or
+  classic token with `repo`, `read:org`, `workflow`, and `write:packages`
+  scopes (the last is needed for GHCR feature publishes).
+
+GitHub CLI auth docs: https://cli.github.com/manual/gh_auth_login
+
+### How to inject it
+
+Local dev (interactive):
+
+```bash
+gh auth login   # one-time, browser device code
+```
+
+CI:
+
+```yaml
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Inside the devcontainer, `~/.config/gh` is mounted from the host so a
+single login on your laptop covers all containers.
+
+### Why we don't auto-auth gh in the Dockerfile
+
+Same reason as Codex / Gemini — credentials must not land in the image
+layer. The interactive flow happens once on the host; the mount makes
+that auth visible to every container.
+
 ## Quick reference
 
-| CLI    | Interactive             | Env-var fallback   | Where to click                                              |
-| ------ | ----------------------- | ------------------ | ----------------------------------------------------------- |
-| Claude | (none)                  | `ANTHROPIC_API_KEY`| https://console.anthropic.com/                              |
-| Codex  | `codex login`           | `OPENAI_API_KEY`   | https://platform.openai.com/api-keys                        |
-| Gemini | `gemini auth login`     | `GOOGLE_API_KEY`   | https://aistudio.google.com/app/apikey                      |
+| CLI    | Interactive             | Env-var fallback                    | Where to click                                              |
+| ------ | ----------------------- | ----------------------------------- | ----------------------------------------------------------- |
+| Claude | (none)                  | `ANTHROPIC_API_KEY`                 | https://console.anthropic.com/                              |
+| Codex  | `codex login`           | `OPENAI_API_KEY`                    | https://platform.openai.com/api-keys                        |
+| Gemini | `gemini auth login`     | `GOOGLE_API_KEY`                    | https://aistudio.google.com/app/apikey                      |
+| gh     | `gh auth login`         | `GH_TOKEN` / `GITHUB_TOKEN`         | https://github.com/settings/tokens                          |
 
 ## Troubleshooting
 

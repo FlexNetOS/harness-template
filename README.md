@@ -10,6 +10,8 @@ A turnkey devcontainer that ships:
 
 - **Three AI CLIs preinstalled**: Claude Code (`@anthropic-ai/claude-code`),
   Codex (`@openai/codex`), Gemini (`@google/gemini-cli`).
+- **GitHub CLI (`gh`) preinstalled** for repo / PR / GHCR operations from
+  inside the container.
 - **Vault-streamed secrets** via `sops + age` — `.env` is never written to disk.
 - **Unified slash-command spine** for end-to-end software delivery.
 - **Multi-Claude orchestration** built into every spine command (parallel specialist sub-agents).
@@ -35,6 +37,7 @@ code .
 claude --version    # smoke-test
 codex --version
 gemini --version
+gh --version
 
 # 5. Run a spine command
 claude

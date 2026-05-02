@@ -1,0 +1,17 @@
+{
+  "id": "github-cli",
+  "version": "0.1.0",
+  "name": "GitHub CLI (gh)",
+  "documentationURL": "https://cli.github.com/manual/",
+  "description": "Installs the official GitHub CLI (gh) from the cli.github.com apt repository. Auth is left to the user (`gh auth login` device-code flow or GH_TOKEN env var).",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Version of gh to install. 'latest' resolves to whatever the apt repo currently ships."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

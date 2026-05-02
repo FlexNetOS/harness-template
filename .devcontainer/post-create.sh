@@ -124,6 +124,7 @@ smoke_test() {
 smoke_test "claude" claude --version || true
 smoke_test "codex"  codex  --version || true
 smoke_test "gemini" gemini --version || true
+smoke_test "gh"     gh     --version || true
 
 # ---------------------------------------------------------------------------
 # 5. Per-CLI auth instructions
@@ -166,6 +167,17 @@ cat <<'EOF'
       npx https://github.com/google-gemini/gemini-cli --version
     Verify:
       gemini --version
+
+  ──────────────────────────────────────────────────────────────────────────
+  GitHub CLI  (gh)
+  ──────────────────────────────────────────────────────────────────────────
+    Run the device-code login (recommended):
+      gh auth login
+    Or set a Personal Access Token (CI / headless):
+      GH_TOKEN=ghp_...   # or GITHUB_TOKEN
+    Verify:
+      gh --version
+      gh auth status
 
   ──────────────────────────────────────────────────────────────────────────
   Loading secrets into your interactive shell
