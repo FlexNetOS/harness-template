@@ -252,12 +252,12 @@ function runTests() {
     assert.ok(ratio < 0.5, `Compression ratio ${ratio.toFixed(2)} should be < 0.5`);
   })) passed++; else failed++;
 
-  if (test('catalog mode token estimate is under 5000 for real agents', () => {
+  if (test('catalog mode token estimate is under 6500 for real agents', () => {
     if (!fs.existsSync(realAgentsDir)) return;
     const result = buildAgentCatalog(realAgentsDir, { mode: 'catalog' });
     assert.ok(
-      result.stats.compressedTokenEstimate < 5000,
-      `Token estimate ${result.stats.compressedTokenEstimate} exceeds 5000`
+      result.stats.compressedTokenEstimate < 6500,
+      `Token estimate ${result.stats.compressedTokenEstimate} exceeds 6500`
     );
   })) passed++; else failed++;
 

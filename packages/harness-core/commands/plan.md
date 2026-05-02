@@ -1,9 +1,22 @@
 ---
-description: Design phase — fan out three design alternatives plus a risk-mapper, synthesize one chosen plan, and write it to ~/.claude/plans/<slug>.md.
+description: Design phase — write a plan inline by default; WAIT for user CONFIRM before touching any code. Optionally fan out design alternatives via --fan-out.
 argument-hint: "<feature, problem, or selected /think direction>"
 ---
 
 # /plan — Design (Spine Phase 2 of 7)
+
+> **Safety contract (preserved from agent_harness's `/plan`):**
+>
+> - Do not call the Task tool or any subagent by default. `/plan` runs inline by default; the plan is produced by the calling Claude turn and written to disk before yielding.
+> - If the `planner` subagent is unavailable (because a downstream consumer has not installed it), the inline path is the canonical fallback.
+> - The fan-out behavior described below is opt-in via `--fan-out` and only spawns the `planner` subagent when explicitly requested.
+> - WAIT for user CONFIRM before touching any code. `/plan` will **NOT** write any code until you explicitly confirm the plan, regardless of which path runs.
+>
+> Example handoff banner the command MUST emit before yielding:
+>
+> ```
+> [/plan] WAITING FOR CONFIRMATION — review the plan at ~/.claude/plans/<slug>.md
+> ```
 
 `/plan` is the **second phase of the seven-phase spine**:
 

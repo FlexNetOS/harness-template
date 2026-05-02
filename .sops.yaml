@@ -14,7 +14,6 @@
 
 creation_rules:
   - path_regex: \.env\.sops$
-    age: >-
-      # Maintainer public key (replace with real age1... key)
-      age1placeholderreplacewithrealrecipientkeyhereXXXXXXXXXXXXXXXX
-    # Add additional contributor public keys as a comma-separated list above.
+    age: age1vgjqa3e0g6jjv68ul2hj5f5r3g3nzmct6s969lzu9w7n2d0emdtq6nhxzn
+    # Add additional contributor public keys as a comma-separated list above
+    # (e.g. age1maintainer..., age1contributor...).
