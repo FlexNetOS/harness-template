@@ -47,11 +47,25 @@ hr
 bold "[2/5] Loading secrets from .env.sops (in-memory only)"
 if [[ -f .env.sops ]]; then
     if decrypted="$(sops -d --output-type dotenv .env.sops 2>/dev/null)"; then
-        eval "$(printf '%s\n' "${decrypted}" | sed 's/^/export /')"
-        unset decrypted
+        # Parse line-by-line and export safely. `sed | eval` re-parses
+        # comment lines as shell, which breaks on parens/backticks/etc.
+        while IFS= read -r line; do
+            case "$line" in
+                ''|'#'*) continue ;;
+                *=*)
+                    key="${line%%=*}"
+                    value="${line#*=}"
+                    case "$key" in
+                        ''|*[!A-Za-z0-9_]*) continue ;;
+                    esac
+                    export "$key=$value"
+                    ;;
+            esac
+        done <<< "$decrypted"
+        unset decrypted line key value
         ok ".env.sops decrypted into post-create environment"
         info "To load these in your interactive shell, add to ~/.bashrc:"
-        info "  eval \"\$(sops -d --output-type dotenv \$PWD/.env.sops 2>/dev/null | sed 's/^/export /')\""
+        info '  set -a; eval "$(sops -d --output-type dotenv $PWD/.env.sops 2>/dev/null)"; set +a'
     else
         warn "Failed to decrypt .env.sops — your age public key may not be in .sops.yaml."
     fi

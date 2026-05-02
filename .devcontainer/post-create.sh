@@ -71,12 +71,26 @@ if [[ -f .env.sops ]]; then
     # here we just verify decryption works and surface env to the rest of
     # this post-create run (notably `pnpm install`, which may need them).
     if decrypted="$(sops -d --output-type dotenv .env.sops 2>/dev/null)"; then
-        # shellcheck disable=SC2046
-        eval "$(printf '%s\n' "${decrypted}" | sed 's/^/export /')"
-        unset decrypted
+        # Parse line-by-line and export safely. Cannot use `sed | eval`
+        # because comment lines that contain shell metacharacters like
+        # parens or backticks would be re-parsed by eval.
+        while IFS= read -r line; do
+            case "$line" in
+                ''|'#'*) continue ;;
+                *=*)
+                    key="${line%%=*}"
+                    value="${line#*=}"
+                    case "$key" in
+                        ''|*[!A-Za-z0-9_]*) continue ;;
+                    esac
+                    export "$key=$value"
+                    ;;
+            esac
+        done <<< "$decrypted"
+        unset decrypted line key value
         ok ".env.sops decrypted into post-create environment"
         info "Note: to load these into your interactive shell, add this to ~/.bashrc:"
-        info "  eval \"\$(sops -d --output-type dotenv /workspaces/harness-template/.env.sops 2>/dev/null | sed 's/^/export /')\""
+        info '  set -a; eval "$(sops -d --output-type dotenv /workspace/.env.sops 2>/dev/null)"; set +a'
     else
         warn "Failed to decrypt .env.sops. Common causes:"
         info "  - Your age public key is not listed in .sops.yaml recipients."
