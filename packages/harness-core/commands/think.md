@@ -37,13 +37,13 @@ It is the **diverge** step. The goal is not to pick an answer — it is to widen
 
 - Hands off to `/plan` with the chosen direction; `/plan` consumes the same `<slug>.md` note as input.
 - Can be re-entered (loop) if no direction crosses the confidence threshold — coordinator will explicitly say "rerun `/think` with narrower scope" rather than fake confidence.
-- Auxiliaries available inside this phase: `/aw:wiki` (look up prior art), `/brainstorm` (single-perspective expansion of one direction).
+- Auxiliaries available inside this phase: `/aw:wiki` (look up prior art), `/aw:wiki` (single-perspective expansion of one direction).
 
 ## Subsumed legacy commands
 
 | Legacy | Status |
 |---|---|
-| `/brainstorm` | Retained as auxiliary; `/think` calls it as one of the fan-out specialists |
+| product-management `brainstorm` skill | Retained as auxiliary; the spine `/think` invokes the brainstorm skill from inside the opportunity-scanner sub-agent when one is available |
 | agents-workspace `/aw:wiki` | Retained as auxiliary; invoked from within problem-frame sub-agent |
 
 Nothing is dropped — `/think` is the **coordinator**, not a replacement.

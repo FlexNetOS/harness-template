@@ -13,7 +13,7 @@ argument-hint: "[--mode=tdd|e2e|integration|standard] [<unit glob>]"
 
 It is the **verify** step. Every package's test suite runs, plus mode-specific sub-agents (TDD test-writers, E2E orchestrators, integration harness runners). Output is a per-package pass/fail matrix plus a coverage summary; coordinator computes the ship-readiness verdict.
 
-This phase **subsumes both `/tdd` and `/e2e`** — they become modes (`--mode=tdd`, `--mode=e2e`) on `/test`. Existing references to the legacy commands continue to work via alias.
+This phase **subsumes both `tdd` and `e2e`** — they become modes (`--mode=tdd`, `--mode=e2e`) on `/test`. Existing references to the legacy commands continue to work via alias.
 
 ---
 
@@ -48,8 +48,8 @@ This phase **subsumes both `/tdd` and `/e2e`** — they become modes (`--mode=td
 
 | Legacy | Status |
 |---|---|
-| agent_harness `/tdd` | Subsumed as `--mode=tdd` |
-| agent_harness `/e2e` | Subsumed as `--mode=e2e` |
+| agent_harness `tdd` | Subsumed as `--mode=tdd` |
+| agent_harness `e2e` | Subsumed as `--mode=e2e` |
 | gstack per-language test commands | Retained as auxiliaries; auto-invoked by package language |
 
 ---

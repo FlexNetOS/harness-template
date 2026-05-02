@@ -7,7 +7,10 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 
-const repoRoot = path.resolve(__dirname, '..', '..');
+// Resolve to the repo root (harness-template/), not the harness-core package.
+// Layout: harness-template/packages/harness-core/tests/ci/<this file>
+//          ^repoRoot           ^pkg            ^tests ^ci
+const repoRoot = path.resolve(__dirname, '..', '..', '..', '..');
 
 const guardrails = [
   {
@@ -29,7 +32,8 @@ const guardrails = [
     ],
   },
   {
-    path: 'skills/autonomous-agent-harness/SKILL.md',
+    // skills/ moved into packages/skills-domain/skills/ in the monorepo layout.
+    path: 'packages/skills-domain/skills/autonomous-agent-harness/SKILL.md',
     heading: '## Consent and Safety Boundaries',
     requiredPatterns: [
       /explicitly requested and scoped/i,
@@ -38,7 +42,7 @@ const guardrails = [
     ],
   },
   {
-    path: 'skills/defi-amm-security/SKILL.md',
+    path: 'packages/skills-domain/skills/defi-amm-security/SKILL.md',
     heading: '## Execution Safety',
     requiredPatterns: [
       /local audit examples/i,

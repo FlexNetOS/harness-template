@@ -9,6 +9,7 @@
 'use strict';
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 // ── Caches (per-process, cleared on next hook invocation) ───────────
@@ -58,8 +59,31 @@ const FORMATTER_PACKAGES = {
 function findProjectRoot(startDir) {
   if (projectRootCache.has(startDir)) return projectRootCache.get(startDir);
 
+  // A package.json directly in $HOME is virtually always a stray experiment
+  // (e.g., a careless `npm install` run from the home dir), not a real
+  // project root. Stop walking at $HOME so that file does not poison
+  // findProjectRoot for unrelated subtrees — most importantly $TMP, which
+  // on Windows lives under $HOME.
+  //
+  // Compare by file identity (dev + ino) rather than path string: on Windows,
+  // os.tmpdir() returns 8.3 short paths (`C:\Users\DAVIDR~1\…`) while
+  // os.homedir() returns the long form (`C:\Users\DavidRevenaugh`). String
+  // comparison and even fs.realpathSync miss the equality, but stat does not.
+  let homeId = null;
+  try {
+    const s = fs.statSync(os.homedir());
+    homeId = `${s.dev}:${s.ino}`;
+  } catch {
+    /* no $HOME or permission issue — fall through to no-stop walk */
+  }
   let dir = startDir;
   while (dir !== path.dirname(dir)) {
+    if (homeId !== null) {
+      try {
+        const s = fs.statSync(dir);
+        if (`${s.dev}:${s.ino}` === homeId) break;
+      } catch { /* ignore stat errors and keep walking */ }
+    }
     for (const marker of PROJECT_ROOT_MARKERS) {
       if (fs.existsSync(path.join(dir, marker))) {
         projectRootCache.set(startDir, dir);

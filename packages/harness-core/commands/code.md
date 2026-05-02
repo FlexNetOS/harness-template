@@ -45,9 +45,9 @@ The Boil-the-Ocean completeness standard applies in full: ship the finished prod
 
 | Legacy | Status |
 |---|---|
-| agent_harness `/skill-create` | Subsumed as a **utility** invoked from within `/code` when a reusable pattern is detected; still callable directly for explicit skill authoring |
-| agents-workspace `/aw:implement` | Retained as auxiliary; useful for trivial single-file changes where fan-out adds overhead |
-| `/tdd` | Subsumed as `--mode=tdd` flag on `/code` (and on `/test`) |
+| agent_harness `skill-create` | Subsumed as a **utility** invoked from within `/code` when a reusable pattern is detected; still callable directly for explicit skill authoring |
+| agents-workspace `aw:implement` | Retained as auxiliary; useful for trivial single-file changes where fan-out adds overhead |
+| `tdd` | Lives as a legacy shim under `legacy-command-shims/commands/tdd.md`; for spine usage prefer `--mode=tdd` flag on this command (and on `test`) |
 
 ---
 
@@ -57,7 +57,7 @@ The Boil-the-Ocean completeness standard applies in full: ship the finished prod
 
 | Sub-agent | Role | Specialist source |
 |---|---|---|
-| `impl-<unit>` (×N) | Implement the plan's changes for one package; write tests; update docs | `packages/harness-core/agents/implementation-engineer.md` |
+| `impl-<unit>` (×N) | Implement the plan's changes for one package; write tests; update docs | inline brief assembled from the plan's file-by-file list (no dedicated agent file required) |
 | `cross-cutting-checker` | Single coordinator-side pass after units finish: ensure interfaces match across packages, no orphaned exports | inline in `tools/spine-fanout.js` |
 
 Coordinator synthesis rule: **merge-and-cross-check**. Each unit returns a structured diff. Coordinator (a) writes diffs to disk in dependency order, (b) runs the cross-cutting checker over the combined result, (c) if any contract mismatch is found, dispatches a fix-up sub-agent for the offending unit and repeats. The phase only declares success when all units report green and cross-cutting check is clean.

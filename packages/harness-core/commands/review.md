@@ -13,7 +13,7 @@ argument-hint: "<PR url, branch name, or 'staged'>"
 
 It is the **critique** step. After `/code` produces a change, four specialist reviewers go over it in parallel — each with a single concern — and a coordinator merges their findings into one unified, severity-tagged report. The Boil-the-Ocean 10-section sweep (`tools/boil-review.js --quick`) is run as part of synthesis, ensuring no completeness gaps slip through.
 
-This phase **subsumes both `/code-review` and `/security-review`** — security is one of the four parallel reviewers, not a separate command.
+This phase **subsumes both `/code-review` and the dedicated security-review pass** — security is one of the four parallel reviewers (`security-reviewer` agent), not a separate command.
 
 ---
 
@@ -51,7 +51,7 @@ This phase **subsumes both `/code-review` and `/security-review`** — security 
 | Legacy | Status |
 |---|---|
 | agent_harness `/code-review` | Subsumed — its single-reviewer pass is now the `architecture` sub-agent inside the parallel fan-out |
-| agent_harness `/security-review` | Subsumed — its OWASP / secrets / auth focus is the `security` sub-agent |
+| agent_harness security-review skill | Subsumed — its OWASP / secrets / auth focus is now the `security-reviewer` sub-agent |
 | gstack per-language reviewers (`python-review`, `cpp-review`, `flutter-review`, etc.) | Retained as auxiliaries; auto-invoked by file extension when relevant |
 
 ---
