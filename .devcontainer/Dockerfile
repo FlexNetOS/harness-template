@@ -133,9 +133,16 @@ RUN set -eux; \
     gh --version
 
 # ---------------------------------------------------------------------------
-# pnpm — pinned global install
+# pnpm — pinned global install + PNPM_HOME so `pnpm add -g <pkg>` works
 # ---------------------------------------------------------------------------
+# pnpm refuses to install global packages until PNPM_HOME is set and on PATH;
+# without this, `pnpm add -g pnpm` fails with ERR_PNPM_NO_GLOBAL_BIN_DIR.
+# We pre-create the dir and export the env so users don't need to run
+# `pnpm setup` interactively after rebuild.
+ENV PNPM_HOME=/home/node/.local/share/pnpm
+ENV PATH="${PNPM_HOME}:${PATH}"
 RUN npm install -g pnpm@9.12.0 \
+    && mkdir -p "${PNPM_HOME}" \
     && pnpm --version
 
 # ---------------------------------------------------------------------------
