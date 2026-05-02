@@ -3,7 +3,7 @@
   "name": "node-postgres-claude",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/node-postgres-claude",
+  "workspaceFolder": "/workspace",
   "remoteUser": "node",
   "shutdownAction": "stopCompose",
   "forwardPorts": [3000, 5432],
