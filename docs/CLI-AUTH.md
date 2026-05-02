@@ -165,6 +165,11 @@ need it for repo/PR/GHCR operations. Two modes:
   classic token with `repo`, `read:org`, `workflow`, and `write:packages`
   scopes (the last is needed for GHCR feature publishes).
 
+> **Note for maintainers:** if `gh auth login` was run without the
+> `write:packages` scope, run `gh auth refresh -s write:packages` before
+> tagging `features-v*` — the GHCR publish workflow needs it. Confirm
+> with `gh auth status`.
+
 GitHub CLI auth docs: https://cli.github.com/manual/gh_auth_login
 
 ### How to inject it
